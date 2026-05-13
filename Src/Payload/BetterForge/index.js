@@ -1,9 +1,9 @@
 /**
- * Main Payload module for MikaForge.
+ * Main Payload module for BetterForge.
  * 
  * This module manages Electron BrowserWindow lifecycle events,
  * loads themes and plugins for each window, handles IPC for theme refresh,
- * and provides the core wiring between MikaForge UI and Electron processes.
+ * and provides the core wiring between BetterForge UI and Electron processes.
  * 
  * @module Payload
  */
@@ -25,7 +25,7 @@ const windowMap = new Map();
  * @returns {Promise<Object>} - An object containing the list of theme files and their contents
  */
 async function loadThemesForWindow(window) {
-    const themesPath = path.join(process.env.APPDATA, 'MikaForge', 'themes');
+    const themesPath = path.join(process.env.APPDATA, 'BetterForge', 'themes');
     let themes = [];
     const themeData = {};
     
@@ -45,8 +45,8 @@ async function loadThemesForWindow(window) {
         
         // Store theme files and data in window for the themes menu
         await window.webContents.executeJavaScript(`
-            window.__mikaForgeThemeFiles = ${JSON.stringify(themes)};
-            window.__mikaForgeThemeData = ${JSON.stringify(themeData)};
+            window.__betterForgeThemeFiles = ${JSON.stringify(themes)};
+            window.__betterForgeThemeData = ${JSON.stringify(themeData)};
         `);
         
         if (themes.length > 0) {
@@ -60,8 +60,8 @@ async function loadThemesForWindow(window) {
             logger.error('[Loader] Failed to read themes folder: ' + dirError);
         }
         await window.webContents.executeJavaScript(`
-            window.__mikaForgeThemeFiles = [];
-            window.__mikaForgeThemeData = {};
+            window.__betterForgeThemeFiles = [];
+            window.__betterForgeThemeData = {};
         `);
         return { themes: [], themeData: {} };
     }
@@ -84,25 +84,25 @@ app.on('browser-window-created', (e, window) => {
     // Expose refresh function, app data path, and IPC to renderer
     window.webContents.once('did-finish-load', async () => {
         await window.webContents.executeJavaScript(`
-            window.__mikaForgeAppData = ${JSON.stringify(process.env.APPDATA)};
+            window.__betterForgeAppData = ${JSON.stringify(process.env.APPDATA)};
             
             // Expose IPC renderer
             if (typeof require !== 'undefined') {
                 try {
                     const { ipcRenderer } = require('electron');
-                    window.__mikaForgeIpcRenderer = ipcRenderer;
+                    window.__betterForgeIpcRenderer = ipcRenderer;
                 } catch (e) {
-                    console.error('[MikaForge] Failed to get ipcRenderer:', e);
+                    console.error('[BetterForge] Failed to get ipcRenderer:', e);
                 }
             }
             
-            window.__mikaForgeRefreshThemes = async function() {
+            window.__betterForgeRefreshThemes = async function() {
                 // Request refresh from main process via IPC
-                if (window.__mikaForgeIpcRenderer) {
-                    await window.__mikaForgeIpcRenderer.invoke('refresh-themes');
+                if (window.__betterForgeIpcRenderer) {
+                    await window.__betterForgeIpcRenderer.invoke('refresh-themes');
                     // Wait for themes to be refreshed
                     return new Promise((resolve) => {
-                        window.addEventListener('__mikaForgeThemesRefreshed', () => {
+                        window.addEventListener('__betterForgeThemesRefreshed', () => {
                             resolve();
                         }, { once: true });
                     });
@@ -115,12 +115,12 @@ app.on('browser-window-created', (e, window) => {
         try {
             // Expose IPC early so plugin API can use it
             await window.webContents.executeJavaScript(`
-                if (typeof require !== 'undefined' && !window.__mikaForgeIpcRenderer) {
+                if (typeof require !== 'undefined' && !window.__betterForgeIpcRenderer) {
                     try {
                         const { ipcRenderer } = require('electron');
-                        window.__mikaForgeIpcRenderer = ipcRenderer;
+                        window.__betterForgeIpcRenderer = ipcRenderer;
                     } catch (e) {
-                        console.error('[MikaForge] Failed to get ipcRenderer:', e);
+                        console.error('[BetterForge] Failed to get ipcRenderer:', e);
                     }
                 }
             `);
@@ -159,7 +159,7 @@ app.on('browser-window-created', (e, window) => {
             
             // Then load user plugins
             logger.notify(`[Loader] Loading plugins for window #${currentWindowNumber}`);
-            const pluginsPath = path.join(process.env.APPDATA, 'MikaForge', 'plugins');
+            const pluginsPath = path.join(process.env.APPDATA, 'BetterForge', 'plugins');
             
             // Store list of plugin files that exist in the folder
             let plugins = [];
@@ -168,14 +168,14 @@ app.on('browser-window-created', (e, window) => {
                 plugins = files.filter(file => file.endsWith('.js'));
                 // Store the list of plugin files in window for the plugins menu
                 await window.webContents.executeJavaScript(`
-                    window.__mikaForgePluginFiles = ${JSON.stringify(plugins)};
+                    window.__betterForgePluginFiles = ${JSON.stringify(plugins)};
                 `);
             } catch (dirError) {
                 // Plugins folder might not exist, that's okay
                 if (!dirError.message?.includes('ENOENT')) {
                     logger.error('[Loader] Failed to read plugins folder: ' + dirError);
                 }
-                await window.webContents.executeJavaScript(`window.__mikaForgePluginFiles = [];`);
+                await window.webContents.executeJavaScript(`window.__betterForgePluginFiles = [];`);
             }
             
             for (const plugin of plugins) {
@@ -191,8 +191,8 @@ app.on('browser-window-created', (e, window) => {
             
             // Trigger window open event for Plugin API
             await window.webContents.executeJavaScript(`
-                if (window.MikaForge && window.MikaForge._triggerWindowOpen) {
-                    window.MikaForge._triggerWindowOpen();
+                if (window.BetterForge && window.BetterForge._triggerWindowOpen) {
+                    window.BetterForge._triggerWindowOpen();
                 }
             `);
         } catch (error) {
@@ -216,7 +216,7 @@ ipcMain.handle('refresh-themes', async (event) => {
             await loadThemesForWindow(window);
             // Notify renderer that themes have been refreshed
             await window.webContents.executeJavaScript(`
-                window.dispatchEvent(new CustomEvent('__mikaForgeThemesRefreshed'));
+                window.dispatchEvent(new CustomEvent('__betterForgeThemesRefreshed'));
             `);
             return { success: true };
         }

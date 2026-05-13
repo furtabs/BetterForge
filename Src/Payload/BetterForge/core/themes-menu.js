@@ -2,20 +2,20 @@
     'use strict';
     
     // Prevent multiple initializations
-    if (window.__mikaForgeThemesMenu) {
+    if (window.__betterForgeThemesMenu) {
         return;
     }
-    window.__mikaForgeThemesMenu = true;
+    window.__betterForgeThemesMenu = true;
     
     // Theme management
     let currentThemeStyle = null;
-    const THEME_STORAGE_KEY = '__mikaForge_selectedTheme';
+    const THEME_STORAGE_KEY = '__betterForge_selectedTheme';
     
     // Live CSS Editor
     let liveCssEditor = null;
     let liveCssStyle = null;
-    const LIVE_CSS_STORAGE_KEY = '__mikaForge_liveCss';
-    const LIVE_CSS_EDITOR_VISIBLE_KEY = '__mikaForge_liveCssEditorVisible';
+    const LIVE_CSS_STORAGE_KEY = '__betterForge_liveCss';
+    const LIVE_CSS_EDITOR_VISIBLE_KEY = '__betterForge_liveCssEditorVisible';
     
     // Theme application functions (available globally)
     function getCurrentTheme() {
@@ -30,12 +30,12 @@
         }
         
         // Load and apply new theme
-        const themeFiles = window.__mikaForgeThemeFiles || [];
+        const themeFiles = window.__betterForgeThemeFiles || [];
         if (themeFiles.includes(themeFile)) {
-            const themeCode = window.__mikaForgeThemeData?.[themeFile];
+            const themeCode = window.__betterForgeThemeData?.[themeFile];
             if (themeCode) {
                 currentThemeStyle = document.createElement('style');
-                currentThemeStyle.id = '__mikaForge_theme_style';
+                currentThemeStyle.id = '__betterForge_theme_style';
                 currentThemeStyle.textContent = themeCode;
                 document.head.appendChild(currentThemeStyle);
                 
@@ -43,8 +43,8 @@
                 localStorage.setItem(THEME_STORAGE_KEY, themeFile);
                 
                 // Trigger theme change event for Plugin API
-                if (window.MikaForge && window.MikaForge._triggerThemeChange) {
-                    window.MikaForge._triggerThemeChange(themeFile);
+                if (window.BetterForge && window.BetterForge._triggerThemeChange) {
+                    window.BetterForge._triggerThemeChange(themeFile);
                 }
             }
         } else {
@@ -72,7 +72,7 @@
         }
         
         // Check if theme data is available
-        if (window.__mikaForgeThemeData && window.__mikaForgeThemeFiles) {
+        if (window.__betterForgeThemeData && window.__betterForgeThemeFiles) {
             // Theme data is available, apply it
             applyTheme(savedTheme);
         } else {
@@ -81,12 +81,12 @@
             const maxAttempts = 50; // Wait up to 5 seconds
             const checkInterval = setInterval(() => {
                 attempts++;
-                if (window.__mikaForgeThemeData && window.__mikaForgeThemeFiles) {
+                if (window.__betterForgeThemeData && window.__betterForgeThemeFiles) {
                     clearInterval(checkInterval);
                     applyTheme(savedTheme);
                 } else if (attempts >= maxAttempts) {
                     clearInterval(checkInterval);
-                    console.warn('[MikaForge] Theme data not available after waiting');
+                    console.warn('[BetterForge] Theme data not available after waiting');
                 }
             }, 100);
         }
@@ -471,7 +471,7 @@
             footerP.style.cssText = 'color: #888; font-size: 12px;';
             const code = document.createElement('code');
             code.style.cssText = 'background: #1e1e1e; padding: 2px 6px; border-radius: 2px;';
-            code.textContent = '%appdata%/MikaForge/themes';
+            code.textContent = '%appdata%/BetterForge/themes';
             footerP.appendChild(document.createTextNode('Themes are loaded from: '));
             footerP.appendChild(code);
             footerRow.appendChild(footerP);
@@ -490,7 +490,7 @@
         
         function getAvailableThemes() {
             const themes = [];
-            const themeFiles = window.__mikaForgeThemeFiles || [];
+            const themeFiles = window.__betterForgeThemeFiles || [];
             
             themeFiles.forEach(file => {
                 const themeName = file.replace(/\.css$/, '').replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
@@ -543,10 +543,10 @@
         
         // Create floating editor container
         liveCssEditor = document.createElement('div');
-        liveCssEditor.id = '__mikaForge_liveCssEditor';
+        liveCssEditor.id = '__betterForge_liveCssEditor';
         
         // Load saved size
-        const savedSize = localStorage.getItem('__mikaForge_liveCssEditor_size');
+        const savedSize = localStorage.getItem('__betterForge_liveCssEditor_size');
         const defaultSize = { width: 500, height: 600 };
         const editorSize = savedSize ? JSON.parse(savedSize) : defaultSize;
         
@@ -609,12 +609,12 @@
             e.stopPropagation();
             if (isMinimized) {
                 // Restore
-                const savedSize = localStorage.getItem('__mikaForge_liveCssEditor_size');
+                const savedSize = localStorage.getItem('__betterForge_liveCssEditor_size');
                 const defaultSize = { width: 500, height: 600 };
                 const editorSize = savedSize ? JSON.parse(savedSize) : defaultSize;
                 liveCssEditor.style.height = editorSize.height + 'px';
                 liveCssEditor.style.overflow = 'visible';
-                const editorContent = liveCssEditor.querySelector('#__mikaForge_liveCssEditor_content');
+                const editorContent = liveCssEditor.querySelector('#__betterForge_liveCssEditor_content');
                 if (editorContent) editorContent.style.display = 'flex';
                 minimizeBtn.textContent = '−';
                 isMinimized = false;
@@ -622,7 +622,7 @@
                 // Minimize
                 liveCssEditor.style.height = '40px';
                 liveCssEditor.style.overflow = 'hidden';
-                const editorContent = liveCssEditor.querySelector('#__mikaForge_liveCssEditor_content');
+                const editorContent = liveCssEditor.querySelector('#__betterForge_liveCssEditor_content');
                 if (editorContent) editorContent.style.display = 'none';
                 minimizeBtn.textContent = '+';
                 isMinimized = true;
@@ -632,12 +632,12 @@
         // Double-click header to restore if minimized
         header.addEventListener('dblclick', () => {
             if (isMinimized) {
-                const savedSize = localStorage.getItem('__mikaForge_liveCssEditor_size');
+                const savedSize = localStorage.getItem('__betterForge_liveCssEditor_size');
                 const defaultSize = { width: 500, height: 600 };
                 const editorSize = savedSize ? JSON.parse(savedSize) : defaultSize;
                 liveCssEditor.style.height = editorSize.height + 'px';
                 liveCssEditor.style.overflow = 'visible';
-                const editorContent = liveCssEditor.querySelector('#__mikaForge_liveCssEditor_content');
+                const editorContent = liveCssEditor.querySelector('#__betterForge_liveCssEditor_content');
                 if (editorContent) editorContent.style.display = 'flex';
                 minimizeBtn.textContent = '−';
                 isMinimized = false;
@@ -700,7 +700,7 @@
         
         // Editor content
         const editorContent = document.createElement('div');
-        editorContent.id = '__mikaForge_liveCssEditor_content';
+        editorContent.id = '__betterForge_liveCssEditor_content';
         editorContent.style.cssText = `
             flex: 1;
             display: flex;
@@ -720,7 +720,7 @@
         
         // Syntax highlight overlay (behind textarea)
         const highlightOverlay = document.createElement('pre');
-        highlightOverlay.id = '__mikaForge_liveCssEditor_highlight';
+        highlightOverlay.id = '__betterForge_liveCssEditor_highlight';
         highlightOverlay.style.cssText = `
             position: absolute;
             top: 0;
@@ -751,7 +751,7 @@
         
         // Textarea (transparent, on top for input)
         const editorTextarea = document.createElement('textarea');
-        editorTextarea.id = '__mikaForge_liveCssEditor_textarea';
+        editorTextarea.id = '__betterForge_liveCssEditor_textarea';
         editorTextarea.spellcheck = false;
         editorTextarea.autocomplete = 'off';
         editorTextarea.autocorrect = 'off';
@@ -793,25 +793,25 @@
         // VS Code-like scrollbar styling
         const style = document.createElement('style');
         style.textContent = `
-            #__mikaForge_liveCssEditor_textarea::-webkit-scrollbar {
+            #__betterForge_liveCssEditor_textarea::-webkit-scrollbar {
                 width: 10px;
                 height: 10px;
             }
-            #__mikaForge_liveCssEditor_textarea::-webkit-scrollbar-track {
+            #__betterForge_liveCssEditor_textarea::-webkit-scrollbar-track {
                 background: #1e1e1e;
             }
-            #__mikaForge_liveCssEditor_textarea::-webkit-scrollbar-thumb {
+            #__betterForge_liveCssEditor_textarea::-webkit-scrollbar-thumb {
                 background: #424242;
                 border-radius: 5px;
             }
-            #__mikaForge_liveCssEditor_textarea::-webkit-scrollbar-thumb:hover {
+            #__betterForge_liveCssEditor_textarea::-webkit-scrollbar-thumb:hover {
                 background: #4e4e4e;
             }
-            #__mikaForge_liveCssEditor_textarea::selection {
+            #__betterForge_liveCssEditor_textarea::selection {
                 background: #264f78;
                 color: #ffffff;
             }
-            #__mikaForge_liveCssEditor_textarea::-moz-selection {
+            #__betterForge_liveCssEditor_textarea::-moz-selection {
                 background: #264f78;
                 color: #ffffff;
             }
@@ -1170,7 +1170,7 @@
                     width: liveCssEditor.offsetWidth,
                     height: liveCssEditor.offsetHeight
                 };
-                localStorage.setItem('__mikaForge_liveCssEditor_size', JSON.stringify(size));
+                localStorage.setItem('__betterForge_liveCssEditor_size', JSON.stringify(size));
             }
         });
         
@@ -1218,7 +1218,7 @@
         if (css && css.trim()) {
             // Create and apply new style
             liveCssStyle = document.createElement('style');
-            liveCssStyle.id = '__mikaForge_liveCss_style';
+            liveCssStyle.id = '__betterForge_liveCss_style';
             liveCssStyle.textContent = css;
             document.head.appendChild(liveCssStyle);
         } else {
@@ -1231,7 +1231,7 @@
     
     // Check periodically for theme data (in case it loads after this script)
     let themeCheckInterval = setInterval(() => {
-        if (window.__mikaForgeThemeData && window.__mikaForgeThemeFiles) {
+        if (window.__betterForgeThemeData && window.__betterForgeThemeFiles) {
             loadThemeOnPageLoad();
             clearInterval(themeCheckInterval);
         }
@@ -1243,7 +1243,7 @@
     }, 5000);
     
     // Also listen for theme refresh events (when themes are loaded/refreshed)
-    window.addEventListener('__mikaForgeThemesRefreshed', () => {
+    window.addEventListener('__betterForgeThemesRefreshed', () => {
         loadThemeOnPageLoad();
     });
     

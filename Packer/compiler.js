@@ -11,9 +11,9 @@ async function compiler()
     await cleanup();
 
     // remove old exe
-    await fs.unlink(path.join(__dirname, 'mikaforge.exe')).catch(() => null);
+    await fs.unlink(path.join(__dirname, 'betterforge.exe')).catch(() => null);
 
-    const tempFolder = path.join(os.tmpdir(), 'mikaforge_temp');
+    const tempFolder = path.join(os.tmpdir(), 'betterForge_temp');
 
     // create temp folder
     await createTempFolder(tempFolder);
@@ -54,7 +54,7 @@ async function compiler()
         '--minify',
         '--bundle',
         '--outfile', 
-        'mikaforge.exe'], { cwd: tempFolder });
+        'betterforge.exe'], { cwd: tempFolder });
     child.stdout.on('data', (data) => {
         logger.notify(`BUN COMPILER: ${data.toString()}`);
     });
@@ -64,8 +64,8 @@ async function compiler()
     child.on('close', async (code) => {
         if(code === 0) {
             logger.success("Build completed successfully");
-            // copy mikaforge.exe current folder
-            await fs.copyFile(path.join(tempFolder, 'mikaforge.exe'), path.join(__dirname, 'mikaforge.exe'));
+            // copy betterforge.exe current folder
+            await fs.copyFile(path.join(tempFolder, 'betterforge.exe'), path.join(__dirname, 'betterforge.exe'));
 
             cleanup();
         }
@@ -82,7 +82,7 @@ async function compiler()
 async function cleanup()
 {
      // cleanup
-    await fs.rm(path.join(os.tmpdir(), 'mikaforge_temp'), { recursive: true, force: true });
+    await fs.rm(path.join(os.tmpdir(), 'betterForge_temp'), { recursive: true, force: true });
 }
 
 async function createTempFolder(folderPath) {

@@ -1,5 +1,5 @@
-# MikaForge
-![Build Status](https://github.com/Zer0SuperNova/MikaForge/actions/workflows/buncompiler.yml/badge.svg)
+# BetterForge
+![Build Status](https://github.com/Zer0SuperNova/BetterForge/actions/workflows/buncompiler.yml/badge.svg)
 
 
 A plugin framework for CurseForge that lets you customize and extend the app with community-made plugins.
@@ -17,7 +17,7 @@ A plugin framework for CurseForge that lets you customize and extend the app wit
 
 ## What is this?
 
-MikaForge modifies the CurseForge desktop client to add a plugin system, similar to what Vencord does for Discord. Load custom plugins to add features, tweak the UI, or change how the app behaves.
+BetterForge modifies the CurseForge desktop client to add a plugin system, similar to what Vencord does for Discord. Load custom plugins to add features, tweak the UI, or change how the app behaves.
 
 ## Features
 
@@ -36,11 +36,11 @@ MikaForge modifies the CurseForge desktop client to add a plugin system, similar
 
 #### You can find example plugins in the `/plugins` folder of this repository.
 Drop plugins into the plugins folder:
-- Windows: `%appdata%/MikaForge/plugins`
+- Windows: `%appdata%/BetterForge/plugins`
 
 #### You can find example Themes in the `/themes` folder of this repository.
 - Drop themess into the themes folder:
-- Windows: `%appdata%/MikaForge/themes`
+- Windows: `%appdata%/BetterForge/themes`
 
 Restart CurseForge or use the reload button (Plugins only, when using a theme go to the settings and enable it)
 
@@ -66,7 +66,7 @@ To compile the uninstaller, run `bun run compile_remover`. This will build the u
 Pull requests welcome. Keep code clean and document what you're doing.
 
 ## A friendly note
-Thanks for using MikaForge! We built this to make CurseForge more fun and flexible for everyone. There are just two of us working on this in our spare time, so please be patient if updates are a bit slow or bugs stick around for a while. If you find issues or have cool ideas, let us know! We'd love to hear what you think. Have fun making plugins! 
+Thanks for using BetterForge! We built this to make CurseForge more fun and flexible for everyone. There are just two of us working on this in our spare time, so please be patient if updates are a bit slow or bugs stick around for a while. If you find issues or have cool ideas, let us know! We'd love to hear what you think. Have fun making plugins! 
 
 ## License
 

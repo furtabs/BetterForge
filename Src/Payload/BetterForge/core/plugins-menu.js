@@ -2,10 +2,10 @@
     'use strict';
     
     // Prevent multiple initializations
-    if (window.__mikaForgePluginsMenu) {
+    if (window.__betterForgePluginsMenu) {
         return;
     }
-    window.__mikaForgePluginsMenu = true;
+    window.__betterForgePluginsMenu = true;
     
     function addMikaPluginsButton() {
         // Find the settings menu
@@ -318,7 +318,7 @@
             footerP.style.cssText = 'color: #888; font-size: 12px;';
             const code = document.createElement('code');
             code.style.cssText = 'background: #1e1e1e; padding: 2px 6px; border-radius: 2px;';
-            code.textContent = '%appdata%/MikaForge/plugins';
+            code.textContent = '%appdata%/BetterForge/plugins';
             footerP.appendChild(document.createTextNode('Plugins are automatically loaded from: '));
             footerP.appendChild(code);
             footerRow.appendChild(footerP);
@@ -342,7 +342,7 @@
             const plugins = [];
             
             // Get list of plugin files from the folder (set by the loader)
-            const pluginFiles = window.__mikaForgePluginFiles || [];
+            const pluginFiles = window.__betterForgePluginFiles || [];
             
             pluginFiles.forEach(file => {
                 // Use filename as plugin name (without .js extension)

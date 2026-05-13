@@ -2,10 +2,10 @@
     'use strict';
     
     // Prevent multiple initializations
-    if (window.__mikaForgeLoadingScreen) {
+    if (window.__betterForgeLoadingScreen) {
         return;
     }
-    window.__mikaForgeLoadingScreen = true;
+    window.__betterForgeLoadingScreen = true;
     
     // Text patterns to replace (case-insensitive)
     const textPatterns = [
@@ -14,39 +14,8 @@
         /forging/gi
     ];
     
-    const replacementText = 'Initializing MikaForge';
-    
-    // Get the image path
-    function getImagePath() {
-        // Try multiple methods to get the path
-        let appData = null;
+    const replacementText = 'Initializing BetterForge';
         
-        // Method 1: Check if exposed via window
-        if (window.__mikaForgeAppData) {
-            appData = window.__mikaForgeAppData;
-        }
-        // Method 2: Try process.env (if available in renderer)
-        else if (typeof process !== 'undefined' && process.env && process.env.APPDATA) {
-            appData = process.env.APPDATA;
-        }
-        // Method 3: Try to use IPC if available
-        else if (window.__mikaForgeIpcRenderer) {
-            try {
-                appData = window.__mikaForgeIpcRenderer.sendSync('get-appdata-path');
-            } catch (e) {
-                // IPC not available or failed
-            }
-        }
-        
-        if (appData) {
-            // Construct path and convert to file:// URL format
-            const imagePath = appData.replace(/\\/g, '/') + '/MikaForge/core/images/MikaSplash.png';
-            return 'file:///' + imagePath;
-        }
-        
-        return null;
-    }
-    
     // Function to add splash image to loading screen
     function addSplashImage() {
         // Try to find common loading screen containers
@@ -70,63 +39,19 @@
         if (!container) return;
         
         // Check if image already added
-        if (container.querySelector('#__mikaForge_splash_image')) {
+        if (container.querySelector('#__betterForge_splash_image')) {
             return;
         }
-        
-        const imagePath = getImagePath();
-        if (!imagePath) {
-            // Try alternative method - use relative path or data URL
-            console.warn('[MikaForge] Could not determine image path, splash image not loaded');
-            return;
-        }
-        
-        // Create image element
-        const splashImg = document.createElement('img');
-        splashImg.id = '__mikaForge_splash_image';
-        splashImg.src = imagePath;
-        splashImg.alt = 'MikaForge';
-        splashImg.style.cssText = `
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            max-width: 80vw;
-            max-height: 80vh;
-            width: auto;
-            height: auto;
-            z-index: 999998;
-            pointer-events: none;
-            opacity: 0.5;
-            filter: brightness(0.6);
-            object-fit: contain;
-        `;
-        
-        // Insert the image
-        if (container === document.body) {
-            document.body.appendChild(splashImg);
-        } else {
-            // Try to insert as background or overlay
-            container.style.position = 'relative';
-            container.appendChild(splashImg);
-        }
-        
-        // Handle image load errors
-        splashImg.onerror = () => {
-            console.warn('[MikaForge] Splash image not found at:', imagePath);
-            splashImg.remove();
-        };
-    }
-    
+            
     // Function to replace text in a text node
     function replaceTextInNode(node) {
         if (node.nodeType === Node.TEXT_NODE) {
             let text = node.textContent;
             let replaced = false;
             
-            // First, check if text already contains "Initializing MikaForge" with dots and clean it
-            if (/Initializing\s+MikaForge\s*[\.…]+/i.test(text)) {
-                text = text.replace(/Initializing\s+MikaForge\s*[\.…]+/gi, replacementText);
+            // First, check if text already contains "Initializing BetterForge" with dots and clean it
+            if (/Initializing\s+BetterForge\s*[\.…]+/i.test(text)) {
+                text = text.replace(/Initializing\s+BetterForge\s*[\.…]+/gi, replacementText);
                 replaced = true;
             }
             

@@ -18,7 +18,7 @@ async function main()
     }
     
     // remove appdata folder
-    await fs.rm(path.join(process.env.APPDATA, 'MikaForge'), { recursive: true, force: true });
+    await fs.rm(path.join(process.env.APPDATA, 'BetterForge'), { recursive: true, force: true });
 
     // unpatch asar file with backup
     logger.notify('Unpatching ASAR file...');
@@ -29,7 +29,7 @@ async function main()
     }
 
     // remove bridge
-    await fs.rm(path.join(CurseForgePath, 'resources/_____MikaForgeBridge_____.js'), { force: true });
+    await fs.rm(path.join(CurseForgePath, 'resources/_____BetterForgeBridge_____.js'), { force: true });
 
     // remove normal asar file
     await fs.rm(path.join(CurseForgePath, 'resources/app.asar'), { force: true });

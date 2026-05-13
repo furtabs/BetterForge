@@ -2,7 +2,7 @@
     'use strict';
     
     // Mark this plugin as loaded
-    window.__mikaForgePremium = true;    
+    window.__betterForgePremium = true;    
     const fakeSubscription = {
         active: true,
         details: {

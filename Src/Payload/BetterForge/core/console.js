@@ -2,14 +2,14 @@
     'use strict';
     
     // Prevent multiple initializations
-    if (window.__mikaForgeConsole) {
+    if (window.__betterForgeConsole) {
         return;
     }
-    window.__mikaForgeConsole = true;
+    window.__betterForgeConsole = true;
     
     // Create console container
     const consoleContainer = document.createElement('div');
-    consoleContainer.id = '__mikaForge_console';
+    consoleContainer.id = '__betterForge_console';
     consoleContainer.style.cssText = `
         position: fixed;
         top: 50%;
@@ -46,7 +46,7 @@
     `;
     
     const consoleTitle = document.createElement('div');
-    consoleTitle.textContent = 'MikaForge Console';
+    consoleTitle.textContent = 'BetterForge Console';
     consoleTitle.style.cssText = `
         color: #fff;
         font-weight: bold;
@@ -118,7 +118,7 @@
     
     // Create console output area
     const consoleOutput = document.createElement('div');
-    consoleOutput.id = '__mikaForge_console_output';
+    consoleOutput.id = '__betterForge_console_output';
     consoleOutput.style.cssText = `
         flex: 1;
         overflow-y: auto;
@@ -154,7 +154,7 @@
     
     const consoleInput = document.createElement('input');
     consoleInput.type = 'text';
-    consoleInput.id = '__mikaForge_console_input';
+    consoleInput.id = '__betterForge_console_input';
     consoleInput.style.cssText = `
         flex: 1;
         background: #1e1e1e;
@@ -182,30 +182,30 @@
     function addConsoleToSidebar() {
         // Check if console button already exists
         if (document.querySelector('.mika-console-menu-item')) {
-            console.log('[MikaForge Console] Button already exists, skipping');
+            console.log('[BetterForge Console] Button already exists, skipping');
             return;
         }
         
         // Find the system-side-menu - this is where the settings button is
         const sidenav = document.querySelector('.sidenav');
         if (!sidenav) {
-            console.warn('[MikaForge Console] Sidenav not found');
+            console.warn('[BetterForge Console] Sidenav not found');
             return;
         }
         
         const systemSideMenu = sidenav.querySelector('.system-side-menu');
         if (!systemSideMenu) {
-            console.warn('[MikaForge Console] system-side-menu not found in sidenav');
+            console.warn('[BetterForge Console] system-side-menu not found in sidenav');
             return;
         }
         
         const userMenu = systemSideMenu.querySelector('.user-menu');
         if (!userMenu) {
-            console.warn('[MikaForge Console] user-menu not found in system-side-menu');
+            console.warn('[BetterForge Console] user-menu not found in system-side-menu');
             return;
         }
         
-        console.log('[MikaForge Console] Found system-side-menu and user-menu');
+        console.log('[BetterForge Console] Found system-side-menu and user-menu');
         
         // Create menu item - matching the structure of other user-menu-item items
         const menuItem = document.createElement('li');
@@ -217,7 +217,7 @@
         toggleButton.href = '#';
         toggleButton.setAttribute('data-discover', 'true');
         toggleButton.setAttribute('draggable', 'false');
-        toggleButton.title = 'MikaForge Console';
+        toggleButton.title = 'BetterForge Console';
         // Don't add inline styles
         
         // Create SVG icon
@@ -249,14 +249,14 @@
         if (settingsLink) {
             const settingsItem = settingsLink.closest('li');
             if (settingsItem) {
-                console.log('[MikaForge Console] Found settings item:', settingsItem);
+                console.log('[BetterForge Console] Found settings item:', settingsItem);
                 // Insert right before the settings button
                 try {
                     userMenu.insertBefore(menuItem, settingsItem);
-                    console.log('[MikaForge Console] Inserted before settings button');
+                    console.log('[BetterForge Console] Inserted before settings button');
                 } catch (e) {
                     // Fallback: append to end
-                    console.warn('[MikaForge Console] Insert failed, appending:', e);
+                    console.warn('[BetterForge Console] Insert failed, appending:', e);
                     userMenu.appendChild(menuItem);
                 }
             } else {
@@ -282,15 +282,15 @@
         // Verify it was added
         const isInDOM = document.contains(menuItem);
         const parentCheck = menuItem.parentNode === userMenu;
-        console.log('[MikaForge Console] Menu item created');
-        console.log('[MikaForge Console] - In DOM:', isInDOM);
-        console.log('[MikaForge Console] - Parent is user-menu:', parentCheck);
+        console.log('[BetterForge Console] Menu item created');
+        console.log('[BetterForge Console] - In DOM:', isInDOM);
+        console.log('[BetterForge Console] - Parent is user-menu:', parentCheck);
         
         if (!isInDOM || !parentCheck) {
-            console.error('[MikaForge Console] ERROR: Menu item not properly inserted!');
+            console.error('[BetterForge Console] ERROR: Menu item not properly inserted!');
         }
         
-        window.__mikaForgeAddConsoleButton = addConsoleToSidebar;
+        window.__betterForgeAddConsoleButton = addConsoleToSidebar;
     }
     
     // Watch for when the sidebar is created
@@ -306,15 +306,15 @@
             const userMenu = systemSideMenu.querySelector('.user-menu');
             const settingsItem = userMenu?.querySelector('li:last-child');
             if (settingsItem) {
-                console.log('[MikaForge Console] System sidebar found with settings button! Adding console button...');
+                console.log('[BetterForge Console] System sidebar found with settings button! Adding console button...');
                 addConsoleToSidebar();
                 // Verify it was added
                 const added = document.querySelector('.mika-console-menu-item');
                 if (added) {
-                    console.log('[MikaForge Console] Console button added successfully!', added);
+                    console.log('[BetterForge Console] Console button added successfully!', added);
                     return true; // Found and added
                 } else {
-                    console.warn('[MikaForge Console] Failed to add console button');
+                    console.warn('[BetterForge Console] Failed to add console button');
                 }
             } else {
                 // Sidebar exists but settings button not ready yet
@@ -334,7 +334,7 @@
                 const userMenu = systemSideMenu.querySelector('.user-menu');
                 const settingsItem = userMenu?.querySelector('li:last-child');
                 if (settingsItem) {
-                    console.log('[MikaForge Console] System sidebar detected via MutationObserver with settings button!');
+                    console.log('[BetterForge Console] System sidebar detected via MutationObserver with settings button!');
                     waitForSidebar();
                 }
             }
@@ -362,7 +362,7 @@
         if (systemSideMenu && !document.querySelector('.mika-console-menu-item')) {
             const userMenu = systemSideMenu.querySelector('.user-menu');
             if (userMenu) {
-                console.log('[MikaForge Console] System-side-menu detected!');
+                console.log('[BetterForge Console] System-side-menu detected!');
                 setTimeout(waitForSidebar, 100);
             }
         }
@@ -385,7 +385,7 @@
         } else if (attempts < maxAttempts) {
             setTimeout(tryAddConsole, 100);
         } else {
-            console.warn('[MikaForge Console] Max attempts reached. Sidebar may not be loading.');
+            console.warn('[BetterForge Console] Max attempts reached. Sidebar may not be loading.');
         }
     }
     
@@ -402,7 +402,7 @@
     setTimeout(tryAddConsole, 3000);
     setTimeout(tryAddConsole, 5000);
     
-    window.__mikaForgeTryAddConsole = tryAddConsole;
+    window.__betterForgeTryAddConsole = tryAddConsole;
     
     // Console state
     let isOpen = false;
@@ -529,8 +529,8 @@
         try {
             // Use script injection which works with CSP 'unsafe-inline'
             const script = document.createElement('script');
-            const scriptId = '__mikaForge_console_script_' + Date.now();
-            const callbackId = '__mikaForge_console_callback_' + Date.now();
+            const scriptId = '__betterForge_console_script_' + Date.now();
+            const callbackId = '__betterForge_console_callback_' + Date.now();
             
             // Create a callback function that can access addLog
             window[callbackId] = function(result, isError, errorMsg) {
@@ -649,7 +649,7 @@
             
             // Only show initialization messages on first open
             if (isFirstOpen) {
-                addLog('MikaForge Console initialized', 'info');
+                addLog('BetterForge Console initialized', 'info');
                 addLog('Type JavaScript commands and press Enter to execute', 'info');
                 isFirstOpen = false;
             }

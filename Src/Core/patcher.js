@@ -1,5 +1,5 @@
 /**
- * Core patcher module for MikaForge.
+ * Core patcher module for BetterForge.
  * 
  * This module provides functions to patch ASAR files, including backing up
  * the original and replacing the main entry point with a bridge script.
@@ -47,10 +47,10 @@ async function patchAsar(asarPath) {
         logger.notify(`Original file hash: ${originalHash}`);
 
         //./dist/background/background.js
-        //../_____MikaForgeBridge_____.js
+        //../_____BetterForgeBridge_____.js
 
         const searchBuffer = Buffer.from('"main": "./dist/background/background.js"');
-        const replaceBuffer = Buffer.from(`"main": "../_____MikaForgeBridge_____.js"`);
+        const replaceBuffer = Buffer.from(`"main": "../_____BetterForgeBridge_____.js"`);
 
         const index = fileBuffer.indexOf(searchBuffer);
         const replaceIndex = fileBuffer.indexOf(replaceBuffer);

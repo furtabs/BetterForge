@@ -2,12 +2,12 @@
     'use strict';
     
     // Prevent multiple initializations
-    if (window.MikaForge) {
+    if (window.BetterForge) {
         return;
     }
     
-    // MikaForge Plugin API
-    window.MikaForge = {
+    // BetterForge Plugin API
+    window.BetterForge = {
         // Event bus
         _events: {},
         _pluginRegistry: {},
@@ -32,7 +32,7 @@
                     try {
                         callback(...args);
                     } catch (error) {
-                        console.error(`[MikaForge] Error in event handler for ${event}:`, error);
+                        console.error(`[BetterForge] Error in event handler for ${event}:`, error);
                     }
                 });
             }
@@ -56,7 +56,7 @@
                 try {
                     this._pluginRegistry[pluginName].onLoad();
                 } catch (error) {
-                    console.error(`[MikaForge] Error in onLoad hook for ${pluginName}:`, error);
+                    console.error(`[BetterForge] Error in onLoad hook for ${pluginName}:`, error);
                 }
             }
         },
@@ -69,7 +69,7 @@
                     try {
                         this._pluginRegistry[pluginName].onUnload();
                     } catch (error) {
-                        console.error(`[MikaForge] Error in onUnload hook for ${pluginName}:`, error);
+                        console.error(`[BetterForge] Error in onUnload hook for ${pluginName}:`, error);
                     }
                 }
                 
@@ -145,7 +145,7 @@
                     try {
                         plugin.onThemeChange(themeName);
                     } catch (error) {
-                        console.error(`[MikaForge] Error in onThemeChange hook for ${plugin.name}:`, error);
+                        console.error(`[BetterForge] Error in onThemeChange hook for ${plugin.name}:`, error);
                     }
                 }
             });
@@ -160,13 +160,13 @@
                     try {
                         plugin.onWindowOpen();
                     } catch (error) {
-                        console.error(`[MikaForge] Error in onWindowOpen hook for ${plugin.name}:`, error);
+                        console.error(`[BetterForge] Error in onWindowOpen hook for ${plugin.name}:`, error);
                     }
                 }
             });
         }
     };
     
-    console.log('[MikaForge] Plugin API initialized');
+    console.log('[BetterForge] Plugin API initialized');
 })();
 
